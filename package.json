@@ -13,7 +13,7 @@
     "web-component-tester": "^4.2.1"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "wct"
   },
   "repository": {
     "type": "git",
