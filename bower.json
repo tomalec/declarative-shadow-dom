@@ -1,0 +1,30 @@
+{
+  "name": "declarative-shadow-dom",
+  "version": "0.0.0",
+  "description": "Custom Element to create Shadow DOM in a declarative manner",
+  "license": "MIT",
+  "main": "declarative-shadow-dom.html",
+  "keywords": [
+    "shadow-dom",
+    "declarative",
+    "web-components",
+    "juicy",
+    "custom-element"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "preview.png",
+    "package.json",
+    "Gruntfile.json"
+  ],
+  "dependencies": {
+    "webcomponentsjs": "^1.0.10",
+    "document-register-element": "^1.4.1"
+  },
+  "devDependencies": {
+    "web-component-tester": "*"
+  }
+}

@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../../webcomponentsjs/webcomponents-hi-sd-ce.js"></script>
+    <script src="../../document-register-element/build/document-register-element.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+    <!-- <script src="../../sinon/lib/sinon.js"></script> -->
+
+    <link rel="import" href="../declarative-shadow-dom.html">
+    <script>
+    let globalStampSpy;
+    customElements.whenDefined('declarative-shadow-dom').then(() => {
+        const DSD = customElements.get('declarative-shadow-dom');
+        globalStampSpy = sinon.spy(DSD.prototype, 'appendToParentsShadowRoot');
+    });
+    </script>
+</head>
+
+<body>
+    <test-fixture id="element">
+        <template>
+            <div id="shadow-host">
+                <template is="declarative-shadow-dom">I'm shadow dom with <slot></slot></template>
+            </div>
+        </template>
+    </test-fixture>
+    <div id="dynamic-shadow-host">
+    </div>
+</body>
+<script>
+function assertModelAge (context) {
+  // make sure we are working with a model
+  new Assertion(this._obj).to.be.calledOn(context);
+  debugger
+
+  // make sure we have an age and its a number
+  var age = this._obj.get('age');
+  new Assertion(age).to.be.a('number');
+
+  // do our comparison
+  this.assert(
+      age === n
+    , "expected #{this} to have have #{exp} but got #{act}"
+    , "expected #{this} to not have age #{act}"
+    , n
+    , age
+  );
+}
+
+function chainModelAge () {
+    debugger
+  chai.utils.flag(this, 'model.age', true);
+}
+chai.Assertion.addChainableMethod('callsOn', assertModelAge, chainModelAge);
+
+    describe('declarative-shadow-dom', () => {
+        let host, dsd;
+
+        afterEach(() => {
+            dsd.appendToParentsShadowRoot.reset();
+        });
+
+        describe('once `auto-stamp` attribute is set for an element already attached to DOM', function() {
+
+            beforeEach(function() {
+                // globalStampSpy.reset(); // clear page-load spies
+                host = fixture('element');
+                dsd = host.querySelector('template[is="declarative-shadow-dom"]');
+            });
+
+            it('should call `appendToParentsShadowRoot` method ~immediatelly~ once attributeChangedCallback is called (polyfill makes it async)', function(done) {
+                dsd.setAttribute('auto-stamp','');
+                setTimeout( function waitForPolyfill(){
+                    expect(dsd.appendToParentsShadowRoot).to.been.calledOnce;
+                    done();
+                });
+            });
+        });
+        describe('once `auto-stamp` attribute is set for an element deatached to DOM', function() {
+
+            beforeEach(function(done) {
+                // globalStampSpy.reset(); // clear page-load spies
+                host = fixture('element');
+                dsd = host.querySelector('template[is="declarative-shadow-dom"]');
+
+                setTimeout(function waitForPolyfillUpgrade(){
+                    dsd.parentElement.removeChild(dsd);
+                    done();
+                });
+            });
+
+            it('should NOT call `appendToParentsShadowRoot`', function() {
+                dsd.setAttribute('auto-stamp','');
+                setTimeout(() => {
+                    expect(dsd.appendToParentsShadowRoot).to.have.not.been.called;
+                },200);
+            });
+        });
+        describe('an element created dynamically', function() {
+            beforeEach(function() {
+                dsd = document.createElement('template','declarative-shadow-dom');
+            });
+
+            it('should NOT call `appendToParentsShadowRoot`', function() {
+                expect(dsd.appendToParentsShadowRoot).to.have.not.been.called;
+            });
+            describe('then attached to main document', function() {
+                beforeEach(function() {
+                    document.querySelector('#dynamic-shadow-host').appendChild(dsd);
+                });
+                afterEach(function() {
+                    document.querySelector('#dynamic-shadow-host').innerHTML = '';
+                });
+
+                it('should NOT call `appendToParentsShadowRoot`', function() {
+                    expect(dsd.appendToParentsShadowRoot).to.have.not.been.called;
+                });
+            });
+            describe('with `auto-stamp` set before attaching anywhere', function() {
+                beforeEach(function() {
+                    dsd.setAttribute('auto-stamp', '')
+                });
+
+                it('should NOT call `appendToParentsShadowRoot`', function() {
+                    expect(dsd.appendToParentsShadowRoot).to.have.not.been.called;
+                });
+                describe('then attached to main document', function() {
+                    beforeEach(function() {
+                        document.querySelector('#dynamic-shadow-host').appendChild(dsd);
+                    });
+                    afterEach(function() {
+                        document.querySelector('#dynamic-shadow-host').innerHTML = '';
+                    });
+
+                    it('should call `appendToParentsShadowRoot`', function() {
+                        expect(dsd.appendToParentsShadowRoot).to.have.been.calledOnce;
+                    });
+                });
+            });
+        });
+    });
+</script>
+
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <title>&lt;declarative-shadow-dom&gt;</title>
+    <link rel="stylesheet" href="http://juicy.github.io/github-markdown-css/github-markdown.css">
+
+    <!-- <base href="https://polygit.org/webcomponents+:master/shadycss+webcomponents+:master/components/"> -->
+    <!-- <script src="../document-register-element/build/document-register-element.js"></script>
+    <script src="../webcomponentsjs/webcomponents-hi.js"></script>
+    <script src="../webcomponentsjs/webcomponents-sd.js"></script> -->
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <!-- <script src="webcomponentsjs/webcomponents-lite.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.0.10/webcomponents-hi-sd-ce.js"></script> -->
+
+    <!-- Imports CE is="" polyfill -->
+    <script src="../document-register-element/build/document-register-element.js"></script>
+
+
+    <!-- Imports custom element -->
+    <link rel="import" href="declarative-shadow-dom.html">
+</head>
+<body class="markdown-body">
+    <template is="declarative-shadow-dom">
+        <!-- That is your #shadow-root -->
+        <style>
+            :host(.markdown-body){
+                height: 100%;
+                margin: 1em auto;
+                width: 70%;
+            }
+            img{
+                position: absolute;
+                top: 0;
+                right: 0;
+                border: 0;
+            }
+            #panes{
+                display: flex;
+                justify-content: space-between;
+            }
+            /** Support for ShadyDOM polyfilled browsers FF and Edge
+            https://github.com/webcomponents/shadycss/issues/128     */
+            .markdown-body{
+                height: 100%;
+                margin: 1em auto;
+                width: 70%;
+            }
+        </style>
+        <a href="https://github.com/tomalec/declarative-shadow-dom"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+        <slot name="header"></slot>
+        <div id="panes">
+            <slot name="solves"></slot>
+            <slot name="code-sample"></slot>
+        </div>
+        <slot></slot>
+    </template>
+    <h1 slot="header">declarative-shadow-dom</h1>
+    <blockquote slot="header">
+        Custom Element to create Shadow DOM in a declarative manner
+    </blockquote>
+
+    <ul slot="solves">
+        <li>Ever wanted declarative syntax for Shadow DOM?</li>
+        <li>Scoped CSS without JS magic?</li>
+        <li>Confused that `#shadow-root` is used in tutorials and dev tools, but does not work in actual HTML?</li>
+        <li>Or just felt jealous, that spec editors can use this syntax and you cannot?</li>
+    </ul>
+    <section slot="code-sample">
+        Check the source of this page. Now, you can simply do:
+        <pre><code>&lt;anyelement&gt;
+    &lt;template is="declarative-shadow-dom"&gt;
+        Shadow Content here
+        &lt;slot&gt;&lt;/slot&gt;
+    &lt;/template&gt;
+    Light DOM content here
+&lt;/anyelement&gt;</code></pre>
+    </section>
+    <p>For more check our <a href="https://github.com/Juicy/declarative-shadow-dom/blob/master/README.md">README.md</a></p>
+
+</body>
+</html>

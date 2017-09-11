@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../../../webcomponentsjs/webcomponents-hi-sd-ce.js"></script>
+    <script src="../../../document-register-element/build/document-register-element.js"></script>
+    <script src="../../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../../declarative-shadow-dom.html">
+    <script>
+    let globalStampSpy;
+    customElements.whenDefined('declarative-shadow-dom').then(() => {
+        const DSD = customElements.get('declarative-shadow-dom');
+        globalStampSpy = sinon.spy(DSD.prototype, 'appendToParentsShadowRoot');
+    });
+    </script>
+</head>
+
+<body>
+    <div id="pageload-shadow-host">
+        <template is="declarative-shadow-dom">I'm shadow dom with <slot></slot></template>
+    </div>
+</body>
+<script>
+    describe('declarative-shadow-dom', () => {
+        let host, dsd;
+
+        describe('an element created in HTML without `auto-stamp`', function() {
+
+            beforeEach(function() {
+                host = document.querySelector('#pageload-shadow-host');
+                dsd = host.querySelector('template[is="declarative-shadow-dom"]');
+            });
+
+            it('should NOT call `appendToParentsShadowRoot`', function() {
+                expect(dsd.appendToParentsShadowRoot).to.have.not.been.called;
+            });
+        });
+    });
+</script>
+
+</html>
