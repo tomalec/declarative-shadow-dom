@@ -15,4 +15,4 @@ addons:
     packages:
       - google-chrome-stable
 script:
-  - xvfb-run wct --skip-plugin sauce -l chrome
+  - xvfb-run wct -l chrome
