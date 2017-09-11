@@ -13,7 +13,7 @@
     "web-component-tester": "^4.2.1"
   },
   "scripts": {
-    "test": "wct"
+    "test": "wct --skip-plugin sauce -l chrome "
   },
   "repository": {
     "type": "git",

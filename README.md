@@ -1,8 +1,6 @@
 # &lt;declarative-shadow-dom&gt;
 
-> A bare minimum custom element starter-kit using [VanillaJS](http://vanilla-js.com/).
->
-> Looking for a working example? Check [hello-world-element](https://github.com/webcomponents/hello-world-element).
+> Custom Element to create Shadow DOM in a declarative manner
 
 ## Demo
 
