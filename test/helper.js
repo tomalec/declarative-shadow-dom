@@ -69,3 +69,41 @@ chai.Assertion.addMethod('stampedToParentsShadowDOM', function isStampedDSD(even
     }
 
 });
+
+// TODO: cover negation
+chai.Assertion.addMethod('stamped', function isStampedDSD(content, eventSpy) {
+    const host = this._obj;
+    const negate = chai.util.flag(this, 'negate');
+    if(!negate){
+
+        expect(host.querySelector('template[is="declarative-shadow-dom"]')).to.be.null;
+        expect(host).to.have.property('shadowRoot');
+        expect(host.shadowRoot).to.be.not.null;
+        expect(host.shadowRoot).to.be.an.instanceof(DocumentFragment);
+        this.assert(
+            host.shadowRoot.innerHTML === content,
+            "expected host's shadowRoot `" + host.shadowRoot.innerHTML + "` to equal `" + content + "`"
+        );
+        if(eventSpy){
+            expect(eventSpy).to.be.calledOnce;
+            expect(eventSpy.getCall(0).args[0]).to.be.have.property('detail');
+            expect(eventSpy.getCall(0).args[0].detail).to.be.have.property('stampedNodes');
+
+            expect(eventSpy.getCall(0).args[0].detail.stampedNodes).to.be.an.instanceof(Array);
+        }
+    } else {
+      debugger
+        if(host.shadowRoot){
+            chai.assert(
+                host.shadowRoot.innerHTML !== content,
+                "expected host's shadowRoot not to equal " + content
+            );
+        }
+        debugger
+        expect(host.querySelector('template[is="declarative-shadow-dom"]')).not.to.be.null;
+        if(eventSpy){
+            expect(eventSpy).not.to.be.called;
+        }
+    }
+
+});

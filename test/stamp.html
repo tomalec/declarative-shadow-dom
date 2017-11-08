@@ -47,7 +47,7 @@
         afterEach(function(){
             eventSpy && eventSpy.reset();
         })
-        describe('declarative-shadow-dom created and attached on page load should be *stamped to parent\'s Shadow DOM*:', () => {
+        describe('declarative-shadow-dom created and connected on page load should be *stamped to parent\'s Shadow DOM*:', () => {
 
 
             beforeEach(function() {
@@ -61,12 +61,11 @@
             });
 
             it('element\'s content should be cloned and appended to the host\'s shadow root', function() {
-                expect(host.shadowRoot.innerHTML).to.equal(dsd.innerHTML);
+                expect(host.shadowRoot.innerHTML).to.equal("I'm shadow dom with <slot></slot>");
             });
 
-            it('should get `stamped` attribute set', function() {
-                expect(dsd).to.have.HTMLAttribute('stamped');
-                expect(dsd).to.have.contentStampedToParent;
+            it('element should be removed from DOM', function() {
+                expect(document.querySelector('template[is="declarative-shadow-dom"]')).to.be.null;
             });
 
             it('event `declarative-shadow-dom-stamped` should be fired on parent element, with stamped elements as detail ', function() {
@@ -80,93 +79,16 @@
             });
 
             it('in short: it\'s **"stamped"**', function() {
-                expect(dsd).to.be.stampedToParentsShadowDOM(pageloadEventSpy);
+                expect(host).to.be.stamped("I'm shadow dom with <slot></slot>", pageloadEventSpy);
             });
 
-        });
-        describe('declarative-shadow-dom created and attached dynamically', function() {
-
-            beforeEach(function(done) {
-                host = fixture('element');
-                dsd = host.querySelector('template[is="declarative-shadow-dom"]');
-
-                setTimeout(function waitForPolyfillUpgrade(){
-                    done();
-                });
-            });
-
-            it('should stamp to parent\'s Shadow DOM', function() {
-                expect(dsd).to.be.stampedToParentsShadowDOM;
-            });
-
-            describe('then detached', function() {
-
-                beforeEach(function(done) {
-                    eventSpy = createStampedEventSpy(host);
-                    host.removeChild(dsd);
-                    setTimeout(function waitForPolyfillUpgrade(){
-                        done();
-                    });
-                });
-
-                it('should remove nodes from parent\'s Shadow DOM', function() {
-                    expect(host.shadowRoot.innerHTML).to.be.empty;
-                });
-                describe('then re-attached', function() {
-
-                    beforeEach(function(done) {
-                        host.appendChild(dsd);
-                        setTimeout(function waitForPolyfillUpgrade(){
-                            done();
-                        });
-                    });
-
-                    it('should stamp to parent\'s Shadow DOM', function() {
-                        expect(dsd).to.be.stampedToParentsShadowDOM(eventSpy);
-                    });
-
-                });
-
-            });
-            describe('then `stamped` attribute is removed', function() {
-
-                beforeEach(function(done) {
-                    eventSpy = createStampedEventSpy(host);
-                    dsd.removeAttribute('stamped');
-                    setTimeout(function waitForPolyfillUpgrade(){
-                        done();
-                    });
-                });
-
-                it('should remove nodes from parent\'s Shadow DOM', function() {
-                    expect(host.shadowRoot.innerHTML).to.be.empty;
-                });
-                describe('then re-attached', function() {
-
-                    beforeEach(function(done) {
-                        host.removeChild(dsd);
-                        setTimeout(function waitForPolyfillUpgrade(){
-                            host.appendChild(dsd);
-                            setTimeout(function waitForPolyfillUpgrade(){
-                                done();
-                            });
-                        });
-                    });
-
-                    it('should stamp to parent\'s Shadow DOM', function() {
-                        expect(dsd).to.be.stampedToParentsShadowDOM(eventSpy);
-                    });
-
-                });
-
-            });
         });
 
 
         describe('declarative-shadow-dom created dynamically', function() {
 
 
-            it('should not throw an error', function() {
+            it('should not throw an error  (with customized built-ins we cannot read parentElement on constructor even if there is one, so we move stamping to connectedCallback)', function() {
 
                 expect(createDSD).to.not.throw();
                 expect(dsd).to.be.an.instanceOf(HTMLElement);
@@ -174,7 +96,7 @@
                 expect(dsd).to.be.not.an.instanceOf(HTMLUnknownElement);
             });
 
-            describe('then attached to a container detached from DOM', function() {
+            describe('then connected to a container detached from DOM', function() {
 
                 beforeEach(function(done) {
                     dsd = createDSD();
@@ -187,10 +109,10 @@
                 });
 
                 it('should not stamp to parent\'s Shadow DOM', function() {
-                    expect(dsd).to.be.not.stampedToParentsShadowDOM(eventSpy);
+                    expect(host).not.to.have.stamped("Dynamic shadow dom with <slot></slot>", eventSpy);
                 });
 
-                describe('once parent is attached to DOM', function() {
+                describe('once parent is connected to DOM', function() {
 
                     beforeEach(function(done) {
                         document.body.appendChild(host);
@@ -203,28 +125,28 @@
                     });
 
                     it('should stamp to parent\'s Shadow DOM', function() {
-                        expect(dsd).to.be.stampedToParentsShadowDOM(eventSpy);
+                        expect(host).to.have.stamped("Dynamic shadow dom with <slot></slot>", eventSpy);
                     });
 
                 });
 
-                describe('once `stamped` attribute is set manually', function() {
+                describe('once `appendToParentsShadowRoot` method is called manually', function() {
 
                     beforeEach(function(done) {
-                        dsd.setAttribute('stamped', '');
+                        dsd.appendToParentsShadowRoot();
                         // setTimeout(function waitForPolyfillUpgrade(){
                             done();
                         // });
                     });
 
                     it('should stamp to parent\'s Shadow DOM', function() {
-                        expect(dsd).to.be.stampedToParentsShadowDOM(eventSpy);
+                        expect(host).to.have.stamped("Dynamic shadow dom with <slot></slot>", eventSpy);
                     });
 
                 });
             });
         });
-        describe('declarative-shadow-dom created and attached dynamically to DOM-attached element with shadowRoot', function() {
+        describe('declarative-shadow-dom created and connected dynamically to DOM-connected element with shadowRoot', function() {
             let observer, shadowDOMMutationSpy;
             beforeEach(function(done) {
                 host = document.createElement('div');
@@ -249,7 +171,7 @@
             })
 
             it('should stamp to parent\'s Shadow DOM', function() {
-                expect(dsd).to.be.stampedToParentsShadowDOM(eventSpy);
+                expect(host).to.have.stamped("Dynamic shadow dom with <slot></slot>", eventSpy);
             });
             it('should modify parent\'s ShadowRoot only once', function() {
                 expect(shadowDOMMutationSpy).to.be.calledOnce;

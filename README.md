@@ -2,6 +2,8 @@
 
 > Custom Element to create Shadow DOM in a declarative manner
 
+It's supposed to work closely to proposal given at https://github.com/whatwg/dom/issues/510
+
 ## Demo
 
 [Check it live!](http://tomalec.github.io/declarative-shadow-dom)
@@ -42,12 +44,21 @@ Or [download as ZIP](https://github.com/tomalec/declarative-shadow-dom/archive/m
     </anyelement>
     ```
 
+## How it works:
+
+When it's `connected` or `appendToParentsShadowRoot` is called it "stamps" - appends it's content to the parents Shadow Root (creates one if needed), then removes itself from the parentNode.
+
+## How we would like it to work
+
+To "stamp" only when created within a parent already (parsing, `.innerHTML = "<template is="declarative-shadow-dom">...`). Then do nothing or even throw an error if it's being added imperatively somewhere.
+
+Unfortunately, autonomous built-ins & CE polyfill does not allow us to get the reference to `.parentNode` in `constructor`.
+
+
 ## Options
 
 Attribute     | Options     | Default      | Description
 ---           | ---         | ---          | ---
-`disabled`    | *Boolean*   | `false`      | if set to true, the element will not stamp itself
-`stamped`     | *Boolean*   |              | attribute that reflects whether the element is stamped or not, you can change it to stamp or clear the Shadow DOM
 
 ## Methods
 
@@ -59,7 +70,7 @@ Method        | Parameters   | Returns     | Description
 
 Event                            | Description
 ---                              | ---
-`declarative-shadow-dom-stamped` | Triggers when Shadow DOM is stamped
+`declarative-shadow-dom-stamped` | Fired on a parent/host when Shadow DOM is stamped
 
 
 ## [Contributing and Development](CONTRIBUTING.md)
