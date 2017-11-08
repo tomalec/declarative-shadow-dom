@@ -22,7 +22,7 @@ customElements.define('declarative-shadow-dom', class extends HTMLTemplateElemen
         this.stampedNodes = Array.prototype.slice.call(fragment.childNodes);
         parentElement.shadowRoot.appendChild(fragment);
         // debugger
-        ShadyCSS && ShadyCSS.styleElement(parentElement);
+        typeof ShadyCSS !== 'undefined' && ShadyCSS.styleElement(parentElement);
         parentElement.dispatchEvent(new CustomEvent('declarative-shadow-dom-stamped', {detail: {stampedNodes: this.stampedNodes}}));
         this.parentNode.removeChild(this);
     }
