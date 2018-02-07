@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../../../webcomponentsjs/webcomponents-hi-sd-ce.js"></script>
+    <script src="../../../document-register-element/build/document-register-element.js"></script>
+    <script src="../../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../../declarative-shadow-dom.html">
+</head>
+
+<body>
+    <!-- <select id="host-7"></select> -->
+    <select id="host-7"></select>
+    <script>
+        describe('declarative-shadow-dom', function() {
+
+            // it('`<shadowroot>` element cannot be used in the elements that cannot have shadow root (see the list for imperative API), in such cases it becomes `HTMLUnknownElement`', function(done) {
+            xit('element cannot be used in the elements that cannot have shadow root (see the list for imperative API), in such cases it becomes `HTMLUnknownElement`', function(done) {
+                const host = document.querySelector('#host-7');
+                window.addEventListener('error', function(error){
+                    assert(error.message.includes('Shadow') || error.message.includes('shadow'), "should throw error about Shadow DOM");
+                    done();
+                });
+                try{
+                    host.innerHTML = `<template is="declarative-shadow-dom" mode="open">shadow</template>`;
+                } catch(e){
+
+                }
+
+                assert(!host.shadowRoot, "should not have shadowRoot property attached");
+            });
+        });
+    </script>
+
+</html>

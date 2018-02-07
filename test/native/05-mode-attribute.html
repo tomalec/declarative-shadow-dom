@@ -31,7 +31,6 @@
 
             it('with mode set to "closed", should create closed shadow root', function() {
                 host = document.createElement('div');
-                debugger
                 container.appendChild(host);
                 host.innerHTML = '<span>I am green</span><template is="declarative-shadow-dom" mode="closed"><style>::slotted(span){color:green; display: flex;}</style><slot></slot></template>';
 
@@ -49,7 +48,6 @@
                 });
                 it('should not create shadow root', function() {
                     assert(!host.shadowRoot, "should not have shadowRoot property attached");
-                    debugger
                     // check presence of closed shadow dom, by checkin if styles were applied
                     assert(!(window.getComputedStyle(host.firstElementChild).display === 'flex'), 'should not attach closed shadow root => should apply styles');
                 });

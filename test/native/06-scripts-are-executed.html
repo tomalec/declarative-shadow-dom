@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../../../webcomponentsjs/webcomponents-hi-sd-ce.js"></script>
+    <script src="../../../document-register-element/build/document-register-element.js"></script>
+    <script src="../../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../../declarative-shadow-dom.html">
+</head>
+
+<body>
+    <!-- <div id="host-6"><shadowroot mode="open"><script>window['dsd-script-executed'] = true;</script></shadowroot></div> -->
+    <div id="host-6"><template is="declarative-shadow-dom" mode="open"><script>window['dsd-script-executed'] = true;</script></template></div>
+    <script>
+        describe('declarative-shadow-dom', function() {
+
+            // it('Scripts in <shadowroot> are processed', function() {
+            it('Scripts in declarative-shadow-dom are processed', function() {
+                const host = document.querySelector('#host-6');
+
+                assert(window['dsd-script-executed'] === true);
+            });
+        });
+    </script>
+
+</html>

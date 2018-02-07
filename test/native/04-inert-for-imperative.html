@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../../../webcomponentsjs/webcomponents-hi-sd-ce.js"></script>
+    <script src="../../../document-register-element/build/document-register-element.js"></script>
+    <script src="../../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../../declarative-shadow-dom.html">
+</head>
+
+<body>
+    <div id="host-4"></div>
+    <script>
+        describe('declarative-shadow-dom', function() {
+            console.info('this is not polyfilled');
+            xit("`host.appendChild(document.createElement('shadowroot'))` does append `HTMLUnknownElement`", function() {
+                const host = document.querySelector('#host-4');
+                const sroot = document.createElement('shadowroot');
+                sroot.setAttribute('mode', 'open');
+                host.appendChild(sroot);
+
+                assert(!host.shadowRoot);
+                assert(host.hasChildNodes());
+                assert(host.children.length === 1);
+                assert(host.children[1] instanceof HTMLUnknownElement);
+            });
+        });
+    </script>
+
+</html>

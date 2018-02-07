@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../../../webcomponentsjs/webcomponents-hi-sd-ce.js"></script>
+    <script src="../../../document-register-element/build/document-register-element.js"></script>
+    <script src="../../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../../declarative-shadow-dom.html">
+</head>
+
+<body>
+    <!-- <div id="host-1"><shadowroot mode="open">shadow</shadowroot></div> -->
+    <div id="host-1"><template is="declarative-shadow-dom" mode="open">shadow</template></div>
+    <script>
+        describe('declarative-shadow-dom', function() {
+
+            it('Once parsed should create shadow root in parent element - **host**, and append own content into there.', function() {
+                const host = document.querySelector('#host-1');
+
+                assert(host.shadowRoot, "should have shadowRoot property attached");
+                assert(host.shadowRoot.innerHTML === 'shadow');
+            });
+        });
+    </script>
+
+</html>
