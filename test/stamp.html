@@ -10,7 +10,8 @@
     <script src="../../web-component-tester/browser.js"></script>
     <script src="helper.js"></script>
 
-    <link rel="import" href="../declarative-shadow-dom.html">
+    <!-- <link rel="import" href="../declarative-shadow-dom.html"> -->
+    <script src="../declarative-shadow-dom.js"></script>
 </head>
 
 <body>
@@ -25,12 +26,12 @@
             const pageloadEventSpy = createStampedEventSpy(document.querySelector('#pageload-shadow-host'));
         </script>
         <div>Distribute</div>me
-        <template is="declarative-shadow-dom">I'm shadow dom with <slot></slot></template>
+        <template is="declarative-shadow-dom" mode="open">I'm shadow dom with <slot></slot></template>
     </div>
     <test-fixture id="element">
         <template>
             <div id="shadow-host">
-                <template is="declarative-shadow-dom">I'm shadow dom with <slot></slot></template>
+                <template is="declarative-shadow-dom" mode="open">I'm shadow dom with <slot></slot></template>
             </div>
         </template>
     </test-fixture>
@@ -41,6 +42,7 @@
 
         function createDSD(){
             dsd = document.createElement('template', 'declarative-shadow-dom');
+            dsd.setAttribute('mode','open');
             dsd.innerHTML = 'Dynamic shadow dom with <slot></slot>';
             return dsd;
         }

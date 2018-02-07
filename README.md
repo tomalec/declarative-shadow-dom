@@ -57,8 +57,9 @@ Unfortunately, autonomous built-ins & CE polyfill does not allow us to get the r
 
 ## Options
 
-Attribute     | Options     | Default      | Description
----           | ---         | ---          | ---
+Attribute     | Options         | Default      | Description
+---           | ---             | ---          | ---
+mode          | 'open','closed' | *required*   | mode of the shadow root to create
 
 ## Methods
 

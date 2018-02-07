@@ -92,14 +92,12 @@ chai.Assertion.addMethod('stamped', function isStampedDSD(content, eventSpy) {
             expect(eventSpy.getCall(0).args[0].detail.stampedNodes).to.be.an.instanceof(Array);
         }
     } else {
-      debugger
         if(host.shadowRoot){
             chai.assert(
                 host.shadowRoot.innerHTML !== content,
                 "expected host's shadowRoot not to equal " + content
             );
         }
-        debugger
         expect(host.querySelector('template[is="declarative-shadow-dom"]')).not.to.be.null;
         if(eventSpy){
             expect(eventSpy).not.to.be.called;
