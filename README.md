@@ -2,7 +2,7 @@
 
 > Custom Element to create Shadow DOM in a declarative manner
 
-It's supposed to work closely to proposal given at [w3c/webcomponents/proposals/Declarative-Shadow-DOM](https://github.com/w3c/webcomponents/blob/gh-pages/proposals/Declarative-Shadow-DOM.md)
+It's supposed to work closely with proposal given at [w3c/webcomponents/proposals/Declarative-Shadow-DOM](https://github.com/w3c/webcomponents/blob/gh-pages/proposals/Declarative-Shadow-DOM.md)
 
 ## Demo
 
@@ -54,7 +54,7 @@ When it's `connected` or `appendToParentsShadowRoot` is called it "stamps" - app
 - Ha! Work natively, without any JavaScript,
 - to stamp only when created declaratively (parsing, `.innerHTML`),
 - do nothing when created imperatively,
-- to stamp when element is created, not when connected - Unfortunately, CE does not allow us to get the reference to `.parentNode` in `constructor`.
+- to stamp when the element is created, not when connected - Unfortunately, CE does not allow us to get the reference to `.parentNode` in `constructor`.
 
 
 ## Speced behavior
