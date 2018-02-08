@@ -24,6 +24,7 @@
             it('with mode set to "open", should create open shadow root', function() {
                 host = document.createElement('div');
                 container.appendChild(host);
+                // host.innerHTML = `<shadowroot mode="open">shadow</shadowroot>`;
                 host.innerHTML = `<template is="declarative-shadow-dom" mode="open">shadow</template>`;
 
                 assert(host.shadowRoot, "should have shadowRoot property attached");
@@ -32,6 +33,7 @@
             it('with mode set to "closed", should create closed shadow root', function() {
                 host = document.createElement('div');
                 container.appendChild(host);
+                // host.innerHTML = '<span>I am green</span><shadowroot mode="closed"><style>::slotted(span){color:green; display: flex;}</style><slot></slot></shadowroot>';
                 host.innerHTML = '<span>I am green</span><template is="declarative-shadow-dom" mode="closed"><style>::slotted(span){color:green; display: flex;}</style><slot></slot></template>';
 
                 assert(!host.shadowRoot, "should not have shadowRoot property attached");
@@ -44,6 +46,7 @@
                 beforeEach(function() {
                     host = document.createElement('div');
                     container.appendChild(host);
+                    // host.innerHTML = '<span>I am black</span><shadowroot mode="foo"><style>::slotted(span){color:green; display: flex;}</style><slot></slot></shadowroot>';
                     host.innerHTML = '<span>I am black</span><template is="declarative-shadow-dom" mode="foo"><style>::slotted(span){color:green; display: flex;}</style><slot></slot></template>';
                 });
                 it('should not create shadow root', function() {
@@ -66,11 +69,12 @@
                 beforeEach(function() {
                     host = document.createElement('div');
                     container.appendChild(host);
+                    // host.innerHTML = '<span>I am black</span><shadowroot><style>::slotted(span){color:green; display: flex;}</style><slot></slot></shadowroot>';
                     host.innerHTML = '<span>I am black</span><template is="declarative-shadow-dom"><style>::slotted(span){color:green; display: flex;}</style><slot></slot></template>';
                 });
                 it('should not create shadow root', function() {
                     assert(!host.shadowRoot);
-                    // check presence of closed shadow dom, by checkin if styles were applied
+                    // check presence of closed shadow dom, by checking if styles were applied
                     assert(!(window.getComputedStyle(host.firstElementChild).display === 'flex'), 'should not attach closed shadow root => should apply styles');
                 });
                 xit('should keep `<shadowroot>` as `HTMLUnknownElement`', function() {
