@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../../../webcomponentsjs/webcomponents-hi-sd-ce.js"></script>
+    <script src="../../../document-register-element/build/document-register-element.js"></script>
+    <script src="../../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../../declarative-shadow-dom.html">
+</head>
+
+<body>
+    <!-- <div id="host-10"><shadowroot mode="open">already got one</shadowroot></div> -->
+    <div id="host-10"><template is="declarative-shadow-dom" mode="open">already got one</template></div>
+    <script>
+        describe('declarative-shadow-dom', function() {
+            // it('Another (valid) <shadowroot mode="open|closed"> inside the node that already has a parsed <shadowroot>, should make the same effect as <shadowroot> in the element that already has shadow root.', function(done) {
+            it('Another (valid) <declarative-shadow-dom mode="open|closed"> inside the node that already has a parsed <declarative-shadow-dom>, should make the same effect as <declarative-shadow-dom> in the element that already has shadow root.', function() {
+                host = document.querySelector('#host-10');
+                // host.innerHTML = `<shadowroot mode="open">new shadow</shadowroot>`;
+                host.innerHTML = `<template is="declarative-shadow-dom" mode="open">new shadow</template>`;
+
+                assert(host.shadowRoot, "should have shadowRoot property attached");
+                assert(host.shadowRoot.innerHTML === 'already got one', "shadowRoot should contain the old one");
+                assert(host.childNodes.length === 0, "must not appear in `childNodes`");
+            });
+        });
+    </script>
+
+</html>

@@ -172,11 +172,12 @@
                 document.body.removeChild(host);
             })
 
-            it('should stamp to parent\'s Shadow DOM', function() {
-                expect(host).to.have.stamped("Dynamic shadow dom with <slot></slot>", eventSpy);
+            it('should not stamp to parent\'s Shadow DOM and get removed from it', function() {
+                expect(host.shadowRoot.innerHTML).not.to.be.equal("Dynamic shadow dom with <slot></slot>");
+                expect(host.querySelector('template[is="declarative-shadow-dom"]')).to.be.null;
             });
-            it('should modify parent\'s ShadowRoot only once', function() {
-                expect(shadowDOMMutationSpy).to.be.calledOnce;
+            it('should not modify parent\'s ShadowRoot', function() {
+                expect(shadowDOMMutationSpy).not.to.be.called;
             });
         });
     });

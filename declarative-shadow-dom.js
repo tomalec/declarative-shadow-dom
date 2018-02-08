@@ -22,13 +22,13 @@ customElements.define('declarative-shadow-dom', class extends HTMLTemplateElemen
         }
         if(!shadowRoot){
             shadowRoot = parentElement.attachShadow({mode: mode});
+            let fragment = document.importNode(this.content, true);
+            this.stampedNodes = Array.prototype.slice.call(fragment.childNodes);
+            shadowRoot.appendChild(fragment);
+            // Support Shady CSS polyfill
+            typeof ShadyCSS !== 'undefined' && ShadyCSS.styleElement(parentElement);
+            parentElement.dispatchEvent(new CustomEvent('declarative-shadow-dom-stamped', {detail: {stampedNodes: this.stampedNodes}}));
         }
-        let fragment = document.importNode(this.content, true);
-        this.stampedNodes = Array.prototype.slice.call(fragment.childNodes);
-        shadowRoot.appendChild(fragment);
-        // debugger
-        typeof ShadyCSS !== 'undefined' && ShadyCSS.styleElement(parentElement);
-        parentElement.dispatchEvent(new CustomEvent('declarative-shadow-dom-stamped', {detail: {stampedNodes: this.stampedNodes}}));
         this.parentNode.removeChild(this);
     }
 }, {

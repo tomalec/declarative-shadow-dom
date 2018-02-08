@@ -2,7 +2,7 @@
 
 > Custom Element to create Shadow DOM in a declarative manner
 
-It's supposed to work closely to proposal given at https://github.com/whatwg/dom/issues/510
+It's supposed to work closely to proposal given at [w3c/webcomponents/proposals/Declarative-Shadow-DOM](https://github.com/w3c/webcomponents/blob/gh-pages/proposals/Declarative-Shadow-DOM.md)
 
 ## Demo
 
@@ -30,13 +30,15 @@ Or [download as ZIP](https://github.com/tomalec/declarative-shadow-dom/archive/m
 
     ```html
     <link rel="import" href="bower_components/declarative-shadow-dom/declarative-shadow-dom.html">
+    <!-- or if you are not using HTML Imports -->
+    <script src="bower_components/declarative-shadow-dom/declarative-shadow-dom.html"></script>
     ```
 
 3. Start using it!
 
     ```html
     <anyelement>
-        <template is="declarative-shadow-dom">
+        <template is="declarative-shadow-dom" mode="open">
             Shadow Content here
             <slot></slot>
         </template>
@@ -46,13 +48,18 @@ Or [download as ZIP](https://github.com/tomalec/declarative-shadow-dom/archive/m
 
 ## How it works:
 
-When it's `connected` or `appendToParentsShadowRoot` is called it "stamps" - appends it's content to the parents Shadow Root (creates one if needed), then removes itself from the parentNode.
+When it's `connected` or `appendToParentsShadowRoot` is called it "stamps" - appends it create shadow root in its parent node and appends its content there, then removes itself from the parent node.
 
-## How we would like it to work
+## How I would like it to work
+- Ha! Work natively, without any JavaScript,
+- to stamp only when created declaratively (parsing, `.innerHTML`),
+- do nothing when created imperatively,
+- to stamp when element is created, not when connected - Unfortunately, CE does not allow us to get the reference to `.parentNode` in `constructor`.
 
-To "stamp" only when created within a parent already (parsing, `.innerHTML = "<template is="declarative-shadow-dom">...`). Then do nothing or even throw an error if it's being added imperatively somewhere.
 
-Unfortunately, autonomous built-ins & CE polyfill does not allow us to get the reference to `.parentNode` in `constructor`.
+## Speced behavior
+
+See the [Declarative-Shadow-DOM spec proposal](https://github.com/w3c/webcomponents/blob/gh-pages/proposals/Declarative-Shadow-DOM.md) and the [test suite of this element](https://tomalec.github.io/declarative-shadow-dom/test/)
 
 
 ## Options
@@ -63,9 +70,9 @@ mode          | 'open','closed' | *required*   | mode of the shadow root to crea
 
 ## Methods
 
-Method        | Parameters   | Returns     | Description
----           | ---          | ---         | ---
-`appendToParentsShadowRoot()`   | None.        | Nothing.    | Appends content to parent element's shadow root, create one if needed.
+Method                        | Parameters   | Returns     | Description
+---                           | ---          | ---         | ---
+`appendToParentsShadowRoot()` | None         | Nothing     | Appends content to parent element's shadow root.
 
 ## Events
 

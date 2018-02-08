@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../../../webcomponentsjs/webcomponents-hi-sd-ce.js"></script>
+    <script src="../../../document-register-element/build/document-register-element.js"></script>
+    <script src="../../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../../declarative-shadow-dom.html">
+</head>
+
+<body>
+    <!-- <template id="template-10">
+        <div id="host-10"><shadowroot mode="open">shadow</shadowroot></div>
+    </template> -->
+    <template id="template-10">
+        <div id="host-10"><template is="declarative-shadow-dom" mode="open">shadow</template></div>
+    </template>
+    <div id="container"></div>
+    <script>
+        describe('declarative-shadow-dom can be used inside the content of a <template>', function() {
+            var host;
+            before(function(){
+                template = document.querySelector('#template-10');
+                host = template.content.querySelector('#host-10');
+            });
+
+            it('should not attach a shadow root to its parent element', function() {
+                assert(!host.shadowRoot, "should not have shadowRoot property attached");
+            });
+            xit('should be available in `.childNodes` as `HTMLShadowRootElement`', function() {
+                assert(host.childNodes[0], "should appear in childNodes");
+                assert(host.childNodes[0], "should be HTMLShadowRootElement");
+            });
+            it('should be available in `.childNodes` as `HTMLTemplateElement`', function() {
+                assert(host.childNodes[0], "should appear in childNodes");
+                assert(host.childNodes[0] instanceof HTMLTemplateElement, "should be HTMLTemplateElement");
+            });
+            describe('once template is cloned and connected to the document', function(){
+                var clonedHost;
+                before(function(){
+                    const clone = document.importNode(template.content, true);
+                    clonedHost = clone.querySelector('#host-10');
+                    document.querySelector('#container').appendChild(clone);
+                });
+
+                it('should attach a shadow root to its parent element', function() {
+                    assert(clonedHost.shadowRoot, "should have shadowRoot property attached");
+                    assert(clonedHost.shadowRoot.innerHTML === 'shadow');
+                });
+                it('should not be available in `.childNodes`', function() {
+                    assert(clonedHost.childNodes.length == 0, "should not appear in childNodes");
+                });
+            });
+        });
+    </script>
+
+</html>

@@ -13,13 +13,29 @@
     <link rel="import" href="../declarative-shadow-dom.html">
 
     <title>declarative-shadow-dom test suite</title>
+    <style>
+    .warning {
+        grid-area: warn;
+        color: #c00;
+        display: inline-block;
+        font: 12px/1.5 monaco, monospace;
+        margin: 5px;
+        padding: 15px;
+        border: 1px solid #eee;
+        border-bottom-color: #ddd;
+        box-shadow: 0 1px 3px #eee;
+        border-radius: 3px;
+    }
+    </style>
 </head>
 <body>
+    <p class="warning">
+        Make sure you run in the environment that supports Shadow DOM.<br>
+        Custom Element v1 with Customized Built-ins would be great as well.
+    </p>
     <script>
         // Load and run all tests (.html, .js):
         WCT.loadSuites([
-          'spec.html',
-          'stamp.html',
           'native/00-create-shadow-root.html',
           'native/01-innerHTML.html',
           'native/02-not-in-childNodes.html',
@@ -28,7 +44,14 @@
           'native/05-mode-attribute.html',
           'native/06-scripts-are-executed.html',
           'native/07-call-attachShadow.html',
-          'native/08-in-blacklisted-element.html'
+          'native/08-in-blacklisted-element.html',
+          'native/09-in-element-w-shadow.html',
+          'native/10-another-shadowroot.html',
+          'native/11-in-template.html',
+
+
+          'spec.html',
+          'stamp.html'
           // leav to refactor test for disavbled proeprty
         //   , 'auto-stamp.html'
         //   , 'auto-stamp/created-without.html'
