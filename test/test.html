@@ -1,0 +1,27 @@
+<head>
+    <meta charset="utf-8" />
+    <title>Chunked/stream template content</title>
+</head>
+
+<body>
+    Foo
+    <!-- STREAM -->
+    <script>
+        console.time("chunk")
+    </script>
+    Bar
+    Bar
+    Bar
+    Bar
+    <script>
+        console.timeEnd("chunk")
+    </script>
+    <!-- /STREAM -->
+    <script>
+        console.time("chunk2")
+    </script>
+    Bar
+    <script>
+        console.timeEnd("chunk2")
+    </script>
+</body>

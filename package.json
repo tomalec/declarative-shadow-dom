@@ -8,12 +8,18 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "command-line-args": "^5.0.2",
+    "concurrently": "^4.1.0",
     "grunt": "^0.4.5",
     "grunt-bump": "^0.3.0",
+    "http-proxy": "^1.17.0",
     "web-component-tester": "^4.2.1"
   },
   "scripts": {
-    "test": "wct -l chrome"
+    "test": "wct -l chrome",
+    "serve": "concurrently -n \"mocked stream,polyserve\" \"npm run mockserver\" \"npm run polyserve\" --kill-others -s first",
+    "polyserve": "polymer serve",
+    "mockserver": "node test/mocked-streaming-server.js \/stream -t http://127.0.0.1:8081/"
   },
   "repository": {
     "type": "git",
