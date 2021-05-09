@@ -1,3 +1,8 @@
+/*
+    `declarative-shadow-dom` -
+    Custom Element to create Shadow DOM in a declarative manner
+    version: 0.1.0
+*/
 customElements.define('declarative-shadow-dom', class extends HTMLTemplateElement {
     static get observedAttributes() {
         return [];

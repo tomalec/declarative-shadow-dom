@@ -3,10 +3,10 @@ module.exports = function(grunt) {
     grunt.initConfig({
         bump: {
           options: {
-            files: ['package.json', 'bower.json', 'declarative-shadow-dom.html'],
+            files: ['package.json', 'bower.json', 'declarative-shadow-dom.html', 'declarative-shadow-dom.js'],
             commit: true,
             commitMessage: '%VERSION%',
-            commitFiles: ['package.json', 'bower.json', 'declarative-shadow-dom.html'],
+            commitFiles: ['package.json', 'bower.json', 'declarative-shadow-dom.html', 'declarative-shadow-dom.js'],
             createTag: true,
             tagName: '%VERSION%',
             tagMessage: 'Version %VERSION%',

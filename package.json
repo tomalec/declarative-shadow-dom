@@ -9,8 +9,8 @@
   "dependencies": {},
   "devDependencies": {
     "@ungap/custom-elements-builtin": "^0.6.5",
-    "grunt": "^0.4.5",
-    "grunt-bump": "^0.3.0",
+    "grunt": "^1.4.0",
+    "grunt-bump": "^0.8.0",
     "web-component-tester": "^6.9.2"
   },
   "scripts": {
