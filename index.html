@@ -6,21 +6,10 @@
     <title>&lt;declarative-shadow-dom&gt;</title>
     <link rel="stylesheet" href="https://juicy.github.io/github-markdown-css/github-markdown.css">
 
-    <!-- <base href="https://polygit.org/webcomponents+:master/shadycss+webcomponents+:master/components/"> -->
-    <!-- <script src="../document-register-element/build/document-register-element.js"></script>
-    <script src="../webcomponentsjs/webcomponents-hi.js"></script>
-    <script src="../webcomponentsjs/webcomponents-sd.js"></script> -->
-    <!-- <script src="../webcomponentsjs/webcomponents-lite.js"></script> -->
-    <!-- <script src="webcomponentsjs/webcomponents-lite.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.0.10/webcomponents-lite.js"></script>
-    <script src="../webcomponentsjs/webcomponents-sd-ce.js"></script>
-
     <!-- Imports CE is="" polyfill -->
-    <script src="../document-register-element/build/document-register-element.js"></script>
+    <script>this.customElements||document.write('<script src="//unpkg.com/document-register-element"><\x2fscript>');</script>
+    <script src="//unpkg.com/@ungap/custom-elements-builtin"></script>
 
-
-    <!-- Imports custom element -->
-    <!-- <link rel="import" href="declarative-shadow-dom.html"> -->
     <script src="declarative-shadow-dom.js"></script>
 </head>
 <body class="markdown-body">
@@ -42,7 +31,7 @@
                 display: flex;
                 justify-content: space-between;
             }
-            /** Support for ShadyDOM polyfilled browsers FF and Edge
+            /** Support for ShadyDOM polyfilled browsers
             https://github.com/webcomponents/shadycss/issues/128     */
             .markdown-body{
                 height: 100%;

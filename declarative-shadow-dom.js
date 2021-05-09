@@ -8,9 +8,40 @@ customElements.define('declarative-shadow-dom', class extends HTMLTemplateElemen
         self = super(self);
     }
     connectedCallback(){
-        this.appendToParentsShadowRoot();
+        if( !this.parentElement ){
+            return;
+        }
+        // Append the content once available.
+        if(this.content && this.content.childNodes.length){
+            this.appendToParentsShadowRoot();
+        } else {
+            // Shim on tagEndCallback = connectedWithContentCallback.
+            //  MO fires sooner than `setTimeout(*, 0)`,
+            //  but will not fire if there is no node after this one.
+            //  Microtask (`Promise.resolve`) is too soon.
+            const timeout = new Promise(resolve => setTimeout(resolve, 0));
+            const nextMutation = new Promise((resolve) => {
+                const observer = new MutationObserver(() => {
+                    resolve();
+                    observer.disconnect();
+                });
+                observer.observe(this.parentElement, {childList: true, subtree: true});
+                // Allow disconnecting observer after disconnection.
+                this._observer = observer;
+            });
+
+            Promise.race([timeout, nextMutation]).then(()=> {
+                this.appendToParentsShadowRoot()
+            });
+        }
+    }
+    disconectedCallback(){
+        this._observer.disconnect();
     }
     appendToParentsShadowRoot(){
+        if(this.content === null || this.isConnected === false){
+            return;
+        }
         const parentElement = this.parentElement;
         const mode = this.getAttribute('mode');
         let shadowRoot = parentElement.shadowRoot;

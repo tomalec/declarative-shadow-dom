@@ -21,8 +21,6 @@
     "Gruntfile.json"
   ],
   "dependencies": {
-    "webcomponentsjs": "^1.0.10",
-    "document-register-element": "^1.4.1"
   },
   "devDependencies": {
     "web-component-tester": "*"

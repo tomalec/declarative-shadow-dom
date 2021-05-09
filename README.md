@@ -2,7 +2,7 @@
 
 > Custom Element to create Shadow DOM in a declarative manner
 
-It's supposed to work closely with proposal given at [w3c/webcomponents/proposals/Declarative-Shadow-DOM](https://github.com/w3c/webcomponents/blob/gh-pages/proposals/Declarative-Shadow-DOM.md)
+It's supposed to work closely with the proposal given at [w3c/webcomponents/proposals/Declarative-Shadow-DOM](https://github.com/w3c/webcomponents/blob/gh-pages/proposals/Declarative-Shadow-DOM.md)
 
 ## Demo
 
@@ -20,18 +20,19 @@ Or [download as ZIP](https://github.com/tomalec/declarative-shadow-dom/archive/m
 
 ## Usage
 
-1. Import polyfill:
+1. Import custom elements builtin extends polyfill if needed
 
     ```html
-    <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+    <script src="//unpkg.com/@ungap/custom-elements-builtin"></script>
     ```
 
 2. Import custom element:
 
+    ```js
+    import 'declarative-shadow-dom';
+    ```
     ```html
-    <link rel="import" href="bower_components/declarative-shadow-dom/declarative-shadow-dom.html">
-    <!-- or if you are not using HTML Imports -->
-    <script src="bower_components/declarative-shadow-dom/declarative-shadow-dom.html"></script>
+    <script src="node_modules/declarative-shadow-dom/declarative-shadow-dom.js"></script>
     ```
 
 3. Start using it!
@@ -80,12 +81,17 @@ Event                            | Description
 ---                              | ---
 `declarative-shadow-dom-stamped` | Fired on a parent/host when Shadow DOM is stamped
 
+## Caveats
+
+With native customized builtins, the CE reactions may be called before template's `.content` is available.
+In such cases, the element waits for `setTimeout(*, 0)` so your content would be stamped slightly asynchronously, or
+for the next parent mutation. Therefore, if you would like to make sure your shadow DOM available synchronously, add any node after `<template is="declarative-shadow-dom">…</template><!-- -->`.
 
 ## [Contributing and Development](CONTRIBUTING.md)
 
 ## History
 
-For detailed changelog, check [Releases](https://github.com/tomalec/declarative-shadow-dom/releases).
+For a detailed changelog, check [Releases](https://github.com/tomalec/declarative-shadow-dom/releases).
 
 ## License
 

@@ -5,29 +5,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
-    <script src="../../webcomponentsjs/webcomponents-hi-sd-ce.js"></script>
-    <script src="../../document-register-element/build/document-register-element.js"></script>
+    <script src="../../node_modules/@ungap/custom-elements/index.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
 
-    <link rel="import" href="../declarative-shadow-dom.html">
+    <script src="../declarative-shadow-dom.js"></script>
 </head>
 
 <body>
-    <test-fixture id="element">
-        <template>
-            <template is="declarative-shadow-dom"></template>
-        </template>
-    </test-fixture>
+    <template id="element"><template is="declarative-shadow-dom"></template></template>
 </body>
 <script>
-    var dsdElement;
     describe('declarative-shadow-dom', function() {
-
-        beforeEach(function() {
-            dsdElement = fixture('element');
-        });
-
         it('should be upgraded element', function() {
+            const dsdElement = document.querySelector('#element').content.firstChild;
             expect(dsdElement).to.be.an.instanceOf(HTMLElement);
             expect(dsdElement).to.be.not.an.instanceOf(HTMLUnknownElement);
         });
